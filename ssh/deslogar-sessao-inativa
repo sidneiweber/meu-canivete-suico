@@ -1,0 +1,4 @@
+# Editar o sshd_config
+
+ClientAliveCountMax 0 # Numero maximo de pacotes para saber se esta ativo ou nao
+ClientAliveInterval 30 # intervalo tempo em segundos se estiver inativo desloga sessao
