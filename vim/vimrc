@@ -1,0 +1,945 @@
+" Arquivo de configuração do vim
+" Criado: Qua 02/Ago/2006 hs 09:19
+" Last Change: Ter 29 Jul 2008 08:27:36 BRT
+" Autor: Sergio Luiz Araujo Silva
+" Codificação: utf-8
+" Download: http://dotfiles.org/~voyeg3r/.vimrc
+" Licence: Licença: Este arquivo é de domínio público
+" Garantia: O autor não se responsabiliza por eventuais danos
+"           causados pelo uso deste arquivo.
+
+"              ( O O )
+"       ====oOO==(_)==OOo=====
+"
+"             °v°
+"            /(_)\
+"             ^ ^
+"
+"
+"   :set runtimepath=~/vimruntime,/mygroup/vim,$VIMRUNTIME
+"   :echo g:colors_name
+"
+"
+"nnoremap <c-j> /<+.\{-1,}+><cr>c/+>/e<cr>
+"inoremap <c-j> <esc>/<+.\{-1,}+><cr>c/+>/e<cr>
+"match Todo /<+.\++>/
+"iabbrev <buffer> for( for (x=0;x<var;x++){<cr><cr>}
+
+" place holders snippets
+" File Templates
+" --------------
+"  ^J jumps to the next marker
+" iabbr <buffer> for for <+i+> in <+intervalo+>:<cr><tab><+i+>
+function! LoadFileTemplate()
+  "silent! 0r ~/.vim/templates/%:e.tmpl
+  syn match vimTemplateMarker "<+.\++>" containedin=ALL
+  hi vimTemplateMarker guifg=#67a42c guibg=#112300 gui=bold
+endfunction
+function! JumpToNextPlaceholder()
+  let old_query = getreg('/')
+  echo search("<+.\\++>")
+  exec "norm! c/+>/e\<CR>"
+  call setreg('/', old_query)
+endfunction
+autocmd BufNewFile * :call LoadFileTemplate()
+nnoremap <C-J> :call JumpToNextPlaceholder()<CR>a
+inoremap <C-J> <ESC>:call JumpToNextPlaceholder()<CR>a
+
+"Configurações de impressão
+if v:version >= 601
+    set printoptions=paper:A4,number:y,portrait:y
+    set printheader=%<%f%=Sergio\ Araújo\ (voyeg3r_at_google_mail)\ %N
+endif
+
+" Abreviação para inserir o nome do arquivo
+" iab filename <c-r>=expand('%:t')<cr>
+
+" alt F11 para esconder/mostrar comentários
+fu! CommOnOff()
+  if !exists('g:hiddcomm')
+    let g:hiddcomm=1 | hi Comment ctermfg=black guifg=black
+  else
+    unlet g:hiddcomm | hi Comment ctermfg=cyan  guifg=cyan term=bold
+  endif
+endfu
+map <M-F11> :call CommOnOff()<cr>
+" para ativar snippets
+filetype on
+filetype plugin on
+" na compilação dos snippets menu pelo vimball
+" defina o novo atalho para snippets
+"let snippetsEmy_key = "<C-Space>"
+"
+" atalhos da linha de comando
+"  ^u  ....... apaga para esquerda
+"  ^w  ....... apaga a palavra antes do cursor
+"  ^b  ....... begin of line
+"  ^e  ....... end of line
+"  ^c  ....... sai da linha de comando sem executar
+"  ^d  ....... completa o comando
+"  :history / 6,12
+"  q:  ....... abre uma janela com o histórico de comandos
+"  q/  ........abre uma janela com o histórico de buscas
+"
+"
+"  ^wo  ....... fecha outras janelas
+"
+"
+" para saber o local dos arquivos de configuração do vim
+"   :echo $VIMRUNTIME
+"
+" Endereço do arquivo de syntax
+" http://aurelio.net/doc/vim/txt.vim    coloque em ~/.vim/syntax
+au BufNewFile,BufRead *.txt source ~/.vim/syntax/txt.vim
+
+" ========================================================
+"   Quando estiver digitando lembre-se que os atalhos
+"   abaixo habilitam a complementação de:
+"
+"	CTRL-X CTRL-F		file names
+"	CTRL-X CTRL-L		whole lines
+"	CTRL-X CTRL-D		macro definitions (also in included files)
+"	CTRL-X CTRL-I		current and included files
+"	CTRL-X CTRL-K		words from a dictionary
+"	CTRL-X CTRL-T		words from a thesaurus
+"	CTRL-X CTRL-]		tags
+"	CTRL-X CTRL-V		Vim command line
+"	CTRL-X CTRL-O       códigos
+
+" ========================================================
+
+"Inserindo a ultima busca, comando ou nome do arquivo no texto "<c-r>/
+"Para inserir o nome do arquivo faça: "<c-r>%
+"Para inserir o último comando no texto: "<c-r>:
+"Para repetir exatamente a última inserção "<c-a>
+"Para complementar a inseração de linhas "<c-x><c-l>
+"Para complementar com palavras "<c-x><c-p>
+"Para complementar à partir do dicionário "<c-x><c-k>
+"Para repetir linha acima caractere por caracte "<c-y>
+"Para repetir linha abaixo caractere por caractere "<c-e>
+
+" =================================================
+"Inserindo um registrador em modo normal
+"Para criar um registrador em modo normal faça:
+"   "ayy ........... copia a linha atual para o registrador a
+""ayiw .......... copia a palavra atual para o registrador a
+"em modo insert faça:
+"  Control + r  + a
+
+" Endereço do wiki (potwiki)
+" http://www.vim.org/scripts/script.php?script_id=1018
+"
+" Setando o vim como editor padrão
+"
+" Coloque estas linhas no seu .bashrc, oviamente sem as aspas
+" do início
+"
+"   export EDITOR=vim
+"   export VISUAL=vim
+
+" Obs: se obtiver erro cole antes no gedit, pois você pode estar tendo erro na
+" codificação utf-8 iso-8859-15
+"
+" Linhas comentadas são iniciadas por (") aspas duplas personalização para o
+" " xterm -ls -bg black -fg white -fa 'bistream vera sans mono' -fs 10 -cr white -hc white -rightbar
+" white -hc white -rightbar
+
+" para copiar todo o arquivo  ggvG "+y
+" para colar todo o arquivo "+p
+" para abrir o arquivo anterior '0
+"
+" numerar linhas
+":let i=1 | g/^/s//\=i."\t"/ | let i=i+1
+
+" inserindo um dígito
+" i control+v numero
+
+" atribuindo um registro
+" :reg  .......... exibe o conteúdo de todos os registros
+" let @a="%s/casa/residência/g"
+" :@a
+" & ............... repete a última substituição na linha atual
+" @: .............. repete o último comando
+" gv .............. repete seleção visual
+" :%g!/^\t\+/ . w! >> ~/tmp/relatorio.txt
+" :[x,y]v/<string>/<cmd>  ........ Executa <cmd> nas linhas em que não houver <string>
+" :his c   ....... histórico de comandos
+" :<C-F>  .......... abre o histórico (escolha e dê enter)
+" q/ ............... histórico de buscas
+" q: ............... histórico de comandos
+" Control-w-q ...... fecha janela de um arquivo salvo
+" :<C-R>m  .......... insere o registro "m" no comando
+" :<C-R><C-W> ....... insere a palavra atual no comando
+" ://................ insere a última busca
+" :%s//aquilo/g
+" :bufdo exe "normal @q" | w   : perform a recording on open files
+" :%s/^\n\+/\r/  ........ remove linhas em branco excessivas
+" :Ex   ................. abre o explorer
+" ]s .................... vai para o próximo erro do Spell
+" zg .................... adiciona a palavra ao dicionário
+" zug ................... remove a palavra do dicionário
+" na ajuda Control-] segue um link e Control-t volta
+" K ........ abre o manual referente à palavra sob o cursor
+" control-o ............. retrocede na lista de saltos
+" control-i ............. avança na lista de saltos
+" :%s/\(^\n\{2,}\)/\r/g    :para remover linhas em branco duplicadas
+" :nmap <F3> :let @/=""<CR> :limpara o registro de buscas
+" :let @/="<C-r><C-w>"<CR> :mostra a palavra sob o cursor destacada
+" para mostrar o valor hexa e decimal de um caracter use 'ga'
+" para apagar um caractere :%s/\%x0d//g
+
+" Referências:
+" http://aurelio.net/doc/vim/vimrc-ivan.txt
+" http://aurelio.net/doc/vim/
+" http://rayninfo.co.uk/vimtips.html
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                 S E T I N G S                         "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" By default, go for an indent of 4
+set autowrite " salvamento automático
+set shiftwidth=4
+set softtabstop=4
+set viminfo=%,'50,\"100,/100,:100,n
+set undolevels=1000  " undoing 1000 changes should be enough :-)
+set updatecount=100  " write swap file to disk after each 20 characters
+set updatetime=6000  " write swap file to disk after 6 inactive seconds
+set noerrorbells " don't make noise
+set incsearch " habilita busca incremental
+set ts=4 " Paradas de tabulação com 4 espaços
+set nocompatible
+set ignorecase
+set smartcase  "Se começar uma busca em maiúsculo ele habilita o case
+set noerrorbells
+set visualbell
+" seta: numeração, indentação expansão de tab para espaços
+" mostra fechamento de parêntese, mostra régua, modo em que
+" está etc.
+set nu ai sm js
+set showcmd showmode showmatch
+set ruler
+set hls
+set ts=4
+"set backup
+"set backupdir=~/tmp
+
+" atalho para o gerenciador de janelas
+" Abrir com explorer em nova janela
+let g:netrw_altv = 1
+map <F2> <esc>:vne .<cr><bar>:vertical resize -40<cr><bar>:set nonu<cr>
+
+" complementação usando arquivos de syntax do sistema
+au FileType * exe('setl dict+='.$VIMRUNTIME.'/syntax/'.&filetype.'.vim')
+
+map <M-right> :wn<cr>
+map <M-left> :wp<cr>
+
+if &t_Co > 2 || has("gui_running")
+    syntax on
+    set hlsearch
+    colorscheme zenburn
+	hi LineNr     guifg=pink     ctermfg=lightMagenta
+    "hi LineNr     guifg=green    ctermfg=lightGreen
+endif
+
+"esquema de cores
+colo zenburn
+" :echo g:colors_name
+" exibe o esquma de cores atual
+
+" função para alternar entre esquemas de cores - colorscheme
+" http://nanasi.jp/old/colorscheme_0.html  <-- baixe os esquemas aqui
+
+function! <SID>SwitchColorSchemes()
+  if exists("g:colors_name")
+    if g:colors_name == 'zenburn'
+      colorscheme inkpot
+    elseif g:colors_name == 'inkpot'
+      colorscheme desert
+    elseif g:colors_name == 'desert'
+	  colorscheme wombat
+    elseif g:colors_name == 'wombat'
+	  colorscheme summerfruit
+    elseif g:colors_name == 'summerfruit'
+	  colorscheme zenburn
+    endif
+  endif
+endfunction
+map <silent> <F6> :call <SID>SwitchColorSchemes()<CR>
+
+" Destaque colorido par a linha atual
+"hi CurrentLine guibg=DarkGrey guifg=black ctermbg=LightCyan ctermfg=black
+"au! Cursorhold * exe 'match CurrentLine /\%' . line('.') . 'l.*/'
+"set ut=10
+
+"Highlight current
+"if has("gui_running")
+"  set cursorline
+"  hi cursorline guibg=#333333
+"  hi CursorColumn guibg=#333333
+"endif
+
+"Word completion
+"Complementação de palavras
+" setting for completion
+if v:version >= 700
+   :set completeopt+=longest
+   :set completeopt=longest,menuone
+   :set spell spelllang=pt
+   map <silent> <C-M-i> :setlocal invspell<CR>
+   imap <silent> <C-M-i> <ESC>:setlocal invspell<CR>i
+endif
+
+" por padrão não faz veriricação ortográfica
+set nospell   " usando <c-i> ativa spell
+map <s-F7> <esc>:set spell!<cr>
+" ]s ..... busca o próximo erro
+" zg ..... adiciona palavra ao dicionário 'good'
+" zug .... desfaz adição de palavra no dicionário
+" zw ..... marca palavra como errada
+" z= ..... mostra alternativas de correção
+
+"After adding a word to 'spellfile' with the above commands its associated
+"".spl" file will automatically be updated and reloaded.  If you change
+"'spellfile' manually you need to use the |:mkspell| command.  This sequence of
+"commands mostly works well: >
+"	:edit <file in 'spellfile'>
+"<	(make changes to the spell file) >
+"	:mkspell! %
+
+"Fechamento automático de parênteses, chaves e colchetes
+"imap { {}<left>
+"imap ( ()<left>
+"imap [ []<left>
+"Para ir para a próxima linha usando l ou h
+set whichwrap=h,l,~,[,]
+
+"Para destacar o fechamento de tags html
+set matchpairs+=<:>
+
+" ================================================================
+"  Quando completar uma palavra seguir a seguinte seqüencia de
+"  busca, sendo primeiro em 1, segundo em 2, ...
+"
+" * 1 - no buffer atual                  (.)
+" * 2 - buffer de outra janela           (w)
+" * 3 - outros buffers carregados        (b)
+" * 4 - buffers não carregados           (u)
+" * 5 - arquivo de tags                  (t)
+" * 6 - arquivo de include               (i)
+" * 7 - dicionário                       (K)
+"
+" complete=.,w,b,u,t,i,k     (*default*)
+" ================================================================
+" para adicionar o verificador ortográfico siga esta dica:
+" http://plasticossj4.wordpress.com/2006/09/29/corretor-ortografico-do-vim-7-no-ubuntu-606/
+" http://www.broffice.org/?q=verortografico (link citado no artigo acima)
+
+"  Este é meu primeiro post Geek, já que foi lançado recentemente a versão 7
+"  do editor vim  resolvi escrever um Mini_HOWTO de como adicionar o corretor
+"  ortografico em português para este Maravilhoso editor de texto no Ubuntu
+"  6.06.
+
+" Primeiro é preciso baixar o arquivo de dicionário; (link acima)
+" Descompacte o arquivo;
+" Despois abra o Vim e digite :mkspell pt pt_BR ;
+" Vai ser gerado no home corrente um arquivo de nome pt.utf-8.spl;
+" Como root digite:
+" cp pt.utf-8.spl /usr/share/vim/vim70/spell/;
+" Ainda como root edite o arquivo vimrc situado no diretório /usr/share/vim/ e acrescente esta linha no final do arquivo:
+" set spell spelllang=pt “Corretor ortografico em portugues;
+
+setlocal complete=.,w,k,b,u,t,i
+set complete-=k complete+=k
+"o comando acima ativa o formato i_Ctrl_n_Ctrl_n para ativar o dicionário
+
+filetype plugin indent on
+set dictionary+=/home/sergio/docs/conf/dict/.words.txt
+"set complete=.,w,k
+"set complete=.,t,w,k,],b
+set infercase
+" make all windows the same size when adding/removing windows
+set noequalalways
+
+"====== complementação de palavras ====
+"usa o tab em modo insert para completar palavras
+function! InsertTabWrapper(direction)
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    elseif "backward" == a:direction
+        return "\<c-p>"
+    else
+        return "\<c-n>"
+    endif
+endfunction
+
+inoremap <tab> <c-r>=InsertTabWrapper ("forward")<cr>
+inoremap <s-tab> <c-r>=InsertTabWrapper ("backward")<cr>
+
+" mapeamentos para complementação
+" não modifique estes caracteres se usa utf-8
+" ^X^F     .............. completa com nomes de arquivo
+" ^X^D     .............. definições ou macros
+" ^X^L     .............. linhas inteiras
+" ^X^K     .............. completa palavras do dicionário
+" ^X^O     .............. completa código
+
+"inoremap  
+"inoremap  
+"inoremap  
+"inoremap  
+"inoremap  
+
+" mostra opções para comandos
+set wildmenu
+set wildmode=list:longest,full
+
+" (window)Define o número de linhas deslocadas com os comandos
+" ^B (Ctrl+B) e ^F (Ctrl+F)
+setlocal window=10
+
+" Define o número de linhas deslocadas com os comandos
+" ^U (Ctrl+U) e ^D (Ctrl+D)
+setlocal scroll=3
+
+" fazer rolagem no documento
+" tem que estar em modo normal!
+map <C-Down> <c-d>
+map <C-Up> <c-u>
+
+" define a cor para o menu contextual dos complementos
+highlight Pmenu ctermbg=13 guibg=Gray
+highlight PmenuSel ctermbg=7 guibg=DarkBlue guifg=White
+highlight PmenuSbar ctermbg=7 guibg=DarkGray
+highlight PmenuThumb guibg=Black
+
+"if has("gui_kde")
+"set guifont=Monaco /10/-1/5/50/0/0/0/0/0
+"endif
+
+set anti gfn=Monaco
+"set guifont=Bitstream\ Vera\ Sans\ Mono\ 9
+
+" se o sistema é um unix setar o terminal para bash
+if has("unix")
+	let &shell="bash"
+	set clipboard=autoselect
+	" Let's be friendly :)
+	"autocmd VimEnter * echo "Seja bem vindo ao vim. Seu sistema é Linux!"
+	"else
+	"autocmd VimEnter * echo "Seja bem vindo ao vim. Seu sistema é Windows!"
+endif
+
+" au BufNewFile,BufRead *.txt source ~/.vim/syntax/txt.vim
+"-----------------------------------------------------
+
+" ========== status bar format ========================================
+" O trecho abaixo formata a barra de status com algumas opções interessantes!
+" mostra o código ascii do caractere sob o cursor e outras coisas mais
+set statusline=%<%F%h%m%r%h%w%y\ ft:%{&ft}\ ff:%{&ff}\ Modificado:\ %{strftime(\"%a\ %d/%B/%Y\ %H:%M:%S\",getftime(expand(\"%:p\")))}%=\ lin:%04l\ \total:%04L\ hex:%03.3B\ ascii:%03.3b\ %P
+set laststatus=2 " Sempre exibe a barra de status
+" ========== status bar format ========================================
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"          M A P E A M E N T O S
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" make search results appear in the middle of the screen
+" faz os resultados da busca aparecerem no meio da tela
+nmap n nzz
+nmap N Nzz
+nmap * *zz
+nmap # #zz
+nmap g* g*zz
+nmap g# g#zz
+
+" Permite recarregar o vim para que modificações no
+" Source the .vimrc or _vimrc file, depending on system
+if &term == "win32" || "pcterm" || has("gui_win32")
+   map ,v :e $HOME/_vimrc<CR>
+   nmap <F12> :<C-u>source ~/_vimrc <BAR> echo "Vimrc recarregado!"<CR>
+else
+   map ,v :e $HOME/.vimrc<CR>
+   nmap <F12> :<C-u>source ~/.vimrc <BAR> echo "Vimrc recarregado!"<CR>
+endif
+
+"destacar palavra sob o cursor no documento inteiro
+"nmap <s-f> :let @/="<C-r><C-w>"<CR>
+
+" Uppercase first letter of sentences
+":%s/[.!?]\_s\+\a/\U&\E/g
+
+" para remover linhas em branco duplicadas
+"map <s-s> <esc>:%s/\(^\n\{2,}\)/\r/g<cr>
+"compress empty lines
+map <s-s> <esc>my:v/./.,/./-1join<cr>`y
+
+" MinusculasMaiusculas: converte a primeira letra de cada frase p/MAIUSCULAS
+map ,mm :set noic<cr>
+       \:%s/\(\(\([.!?]\s*\\|^\s*\)\n^\\|[.?!-] \)\s*"\?\s*\)\([a-zàáéóú]\)/\1\U\4/g<cr>
+
+" Coloca em maiúsculo a primeira letra de cada sentença
+map ,u :%s/\([.!?]\)\(\_s\+\)\(\a\)/\1\2\U\3/g<cr>
+
+"Auto formatação para parágrafos
+map <F8> gqap
+
+" mapeamento para abrir e fechar folders em modo normal usando
+" a barra de espaços -- zR abre todos os folders
+nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+
+"-----------------------------------------------------
+" Destaca espaços e tabs redundantes
+" caso queira usar descomente as ultimas linha e reinicie o
+" vim ou pressione ,u caso etnha a função de recarregar (veja linha17)
+" Highlight redundant whitespace and tabs.
+highlight RedundantWhitespace ctermbg=red guibg=red
+match RedundantWhitespace /\s\+$\| \+\ze\t/
+
+"remove espaços redundantes no fim das linhas
+map <F7> <esc>mz:%s/\s\+$//g<cr>`z
+
+" um destaque especial para MinhasNotas
+highlight MinhasNotas ctermbg=Yellow ctermfg=red guibg=Yellow guifg=red
+match MinhasNotas /Nota:/
+
+" mapeamentos para indentar com Alt+l -->
+"map <m-h> <<
+"map <m-l> >>
+" ^t indenta em modo normal
+" ^d retira indentação em modo normal
+
+" o mapeamento abaixo coloca e retira a numeração
+" o sistema alterna a numeração para ativa ou desativada
+map <F11> <esc>:set invnu<cr>
+map <S-F12> <esc>:dig<cr> " mostra os digrafos do tipo Word®
+
+" Mapeamento para apagar com Backspace
+map <BS> X
+
+"-----------------------------------------------------
+" oculta o destaque das buscas, e exibe de novo com shift+F11
+" tira as cores das ocorrências de busca e recoloca (booleano)
+"nno <S-F11> :set hls!<bar>set hls?<CR>
+nno <S-F11> <esc>:set invhls<cr>
+
+" for txt, autoformat and wrap text at 70 chars.
+autocmd BufNewFile,BufRead *.txt set wrapmargin=70 textwidth=70
+
+" autocomando para arquivos html, xml e xsl para fechar tagas
+" pode ser encontrado em:
+" http://vim.sourceforge.net/scripts/script.php?script_id=13
+" autocmd FileType html,xml,xsl source ~/docs/vim/closetag.vim
+" descomente a linha acima caso tenha o arquivo indicado
+
+" =========================================
+"        Abreviações
+" =========================================
+iab tambem também
+iab teh the
+iab them then
+iab latex \LaTeX\
+iab ,m <voyeg3r@gmail.com>
+ab slas Sérgio Luiz Araújo Silva
+ab vc você
+iab teh the
+iab a. ª
+iab analize análise
+iab angulo ângulo
+iab apos após
+iab apra para
+iab aqeule aquele
+iab aqiulo aquilo
+iab arcoíris arco-íris
+iab aré até
+iab asim assim
+iab aspeto aspecto
+iab assenção ascenção
+iab assin assim
+iab assougue açougue
+iab aue que
+iab augum algum
+iab augun algum
+iab ben bem
+iab beringela berinjela
+iab bon bom
+iab cafe café
+iab caichote caixote
+iab capitões capitães
+iab cidadães cidadãos
+iab ckaro claro
+iab cliche clichê
+iab compreenssão compreensão
+iab comprensão compreensão
+iab comun comum
+iab con com
+iab contezto contexto
+iab corrijir corrigir
+iab coxixar cochichar
+iab cpm com
+iab cppara para
+iab dai daí
+iab danca dança
+iab decer descer
+iab definitamente definitivamente
+iab deshonestidade desonestidade
+iab deshonesto desonesto
+iab detale detalhe
+iab deven devem
+iab díficil difícil
+iab distingeu distingue
+iab dsa das
+iab dze dez
+iab ecessão exceção
+iab ecessões exceções
+iab eentão e então
+iab emb bem
+iab ems sem
+iab emu meu
+iab en em
+iab enbora embora
+iab equ que
+iab ero erro
+iab erv ver
+iab ese esse
+iab esselência excelência
+iab esu seu
+iab excessão exceção
+iab Excesões exceções
+iab excurção excursão
+iab Exenplo exemplo
+iab exeplo exemplo
+iab exijência exigência
+iab exijir exigir
+iab expontâneo espontâneo
+iab ezemplo exemplo
+iab ezercício exercício
+iab faciu fácil
+iab fas faz
+iab fente gente
+iab ferias férias
+iab geito jeito
+iab gibóia jibóia
+iab gipe jipe
+iab ha há
+iab hezitação hesitação
+iab hezitar hesitar
+iab http:\\ http:
+iab iigor igor
+iab interesado interessado
+iab interese interesse
+iab Irria Iria
+iab iso isso
+iab isot isto
+iab ítens itens
+iab ja já
+iab jente gente
+iab linguiça lingüiça
+iab linux GNU/Linux
+iab masi mais
+iab maz mas
+iab con com
+iab mema mesma
+iab mes mês
+iab muinto muito
+iab nao não
+iab nehum nenhum
+iab nenina menina
+iab noã não
+iab no. nº
+iab N. Nº
+iab o. º
+iab obiter obter
+iab observacao observação
+iab ons nos
+iab orijem origem
+iab ospital hospital
+iab poden podem
+iab portugu6es português
+iab potuguês português
+iab precisan precisam
+iab própio próprio
+iab quado quando
+iab quiz quis
+iab recizão rescisão
+iab sanque sangue
+iab sao são
+iab sen sem
+iab sensivel sensível
+iab sequéncia seqüência
+iab significatimente significativam
+iab sinceranete sinceramente
+iab sovre sobre
+iab susseder suceder
+iab tanbem também
+iab testo texto
+iab téxtil têxtil
+iab tydo tudo
+iab una uma
+iab unico único
+iab utilise utilize
+iab vega veja
+iab vja veja
+iab voc6e você
+iab wue que
+iab xave chave
+
+iab 1a. 1ª
+iab 2a. 2ª
+iab 3a. 3ª
+iab 4a. 4ª
+iab 5a. 5ª
+iab 6a. 6ª
+iab 7a. 7ª
+iab 8a. 8ª
+iab 9a. 9ª
+iab 10a. 10ª
+iab 11a. 11ª
+iab 12a. 12ª
+iab 13a. 13ª
+iab 14a. 14ª
+iab 15a. 15ª
+
+" caso o teclado esteja desconfigurado use:
+"iab 'a á
+"iab 'A Á
+"iab 'e é
+"iab 'E É
+"iab 'i í
+"iab 'I Í
+"iab 'o ó
+"iab 'O Ó
+"iab ~a ã
+"iab ~A Ã
+"iab ^a â
+"iab ^A Â
+"iab `a à
+"iab `A À
+"iab ,c ç
+"iab ,C Ç
+"iab ^e ê
+"iab ^E Ê
+"iab ^o ô
+"iab ^O Ô
+"iab ~o õ
+"iab ~O Õ
+"iab 'u ú
+"iab 'U Ú
+
+"coloca a data tipo Ter 26/Out/2004 hs 10:53 na linha atual
+iab ,d <C-R>=strftime("%A %d/%B/%Y hs %H:%M")<CR>
+iab ,m <voyeg3r em gmail.com>
+"iab ,x <?xml version="1.0" encoding="utf-8" ?>
+
+" a função (strftime) é predefinida pelo sistema
+iab YDATE <C-R>=strftime("%a %d/%b/%Y hs %H:%M")<CR>
+iab HDATE <C-R>=strftime("%a %d/%b/%Y hs %H:%M")<CR>
+" Example: 1998-11-05 19:20:43 MST
+
+" Estas linhas sao para não dar erro
+" na hora de salvar arquivos
+cab W  w
+cab Wq wq
+cab wQ wq
+cab WQ wq
+cab Q  q
+
+" =============== data automática ===========================
+" insira na em seus arquivos =   "ultima modificação:"
+" em qualquer das três primeiras linhas
+
+fun! LastChange()
+   mark z
+   if getline(1) =~ ".*Last Change:" ||
+                           \ getline(2) =~ ".*Last Change:"  ||
+                           \ getline(3) =~ ".*Last Change:"  ||
+                           \ getline(4) =~ ".*Last Change:"  ||
+                           \ getline(5) =~ ".*Last Change:"
+      exec "1,5s/\s*Last Change: .*$/Last Change: " . strftime("%c") . "/"
+   endif
+   exec "'z"
+endfun
+
+" salva com <F9> | não altera o time stamp
+" salvar sem alterar o time stamp preserva a lista de saltos
+nmap <F9> <esc>:w<cr>
+imap <F9> <C-O><C-S>
+
+" salva com <F5> e altera o time stamp chamando a função
+" LastChange() definina acima
+map <F5> <esc>:call LastChange() <BAR> w<cr>
+" abre o histórico de comandos
+map <S-F5> q:
+
+"ao salvar modificar o change log no começo do arquivo
+cab wq call LastChange() <BAR> wq<cr>
+
+" desabilitei o uso altomático pois influia na lista de modificações e saltos
+" deixando a alteração do time stamp para ser feita manualmente com o comando
+" map <F5> <esc>:call LastChange() <BAR>  w<cr>
+"au BufWritePre * call SetDate()
+"au BufWritePre * call LastChange()
+
+"============ Fim da Data Automática ===================
+
+" === Cria um registro de alterações de arquivo ========
+" ChangeLog entry convenience
+" Função para inserir um status do arquivo
+" cirado: data de criação, alteração, autor etc
+fun! InsertChangeLog()
+    normal(1G)
+    call append(0, "Arquivo")
+    call append(1, "Criado: " . strftime("%a %d/%b/%Y hs %H:%M"))
+    call append(2, "Last Change: " . strftime("%a %d/%b/%Y hs %H:%M"))
+    call append(3, "Autor: Sergio Luiz Araujo Silva")
+    normal($)
+endfun
+map ,cl :call InsertChangeLog()<cr>A
+
+" Cria um cabeçalho para scripts bash
+fun! InsertHeadBash()
+    normal(1G)
+    call append(0, "#!/bin/bash")
+    call append(1, "# Criado em:" . strftime("%a %d/%b/%Y hs %H:%M"))
+    call append(2, "# Last Change: " . strftime("%a %d/%b/%Y hs %H:%M"))
+    call append(3, "# Instituicao:")
+    call append(4, "# Proposito do script:")
+    call append(5, "# Autor:")
+    normal($)
+endfun
+map ,sh :call InsertHeadBash()<cr>A
+au BufNewFile,BufRead *.sh if getline(1) == "" | normal ,sh
+
+fun! BufNewFile_PY()
+normal(1G)
+    call append(0, "#!/usr/bin/env python")
+    call append(1, "# # -*- coding: UTF-8 -*-")
+    call append(2, "# Criado em:" . strftime("%a %d/%b/%Y hs %H:%M"))
+    call append(3, "# Last Change: " . strftime("%a %d/%b/%Y hs %H:%M"))
+    call append(4, "# Instituicao:")
+    call append(5, "# Proposito do script:")
+    call append(6, "# Autor: Sergio Luiz Araujo Silva")
+	call append(7, "# blog: http://vivaotux.blogspot.com")
+    normal($)
+endfun
+autocmd BufNewFile *.py call BufNewFile_PY()
+map ,py :call BufNewFile_PY()<cr>A
+
+"-----------------------------------------------------
+" dá permissão para arquivos dos tipos descritos abaixo
+" Automatically give executable permissions if filename ends in .sh, .pl or .cgi
+"au BufWritePost *.sh  !chmod +x %
+"-----------------------------------------------------
+" Automatically give executable permission to scripts starting
+  " with #!/usr/bin/perl and #!/bin/sh
+au BufNewFile,BufWritePost * if getline(1) =~ "^#!/bin/[a-z]*sh" ||
+    \ getline(1) =~ "^#!/usr/bin/env python" | silent execute "!chmod u+x %" | endif
+
+" autocomandos para python
+autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+im :<CR> :<CR><TAB>
+
+" Remove Ctrl+M do final de linhas do DOS windows
+" get rid of
+" Para inserir o simbolo 
+ use ^v ^M  ou ^v Enter
+if has("user_commands")
+  " remove ^M from the file
+  com! RemoveCtrlM :%s/\%x0d/\r/g
+  " change to directory of current file
+  com! CD cd %:p:h
+endif
+" no caso do sed faça:
+"	 sed -i 's/\x0D$//' *
+"
+" Para apagar caracteres de final de linha do DOS manualmente faça:
+"	:%s/\%x0d//g
+
+"-----------------------------------------------------
+" HTML: Funcoes particulares para editar arquivos HTML
+" Cria um esqueleto de arquivo HTML ao abrir um arquivo novo .html
+" Should stop HTML Files auto-indenting
+
+"-----------------------------------------------------
+"augroup html
+" au! <--> Remove all html autocommands
+"  au!
+"  au BufNewFile,BufRead *.html,*.shtml,*.htm set ft=html
+"  au BufNewFile,BufRead,BufEnter  *.html,*.shtml,*.htm so ~/docs/vim/.vimrc-html
+"  au BufNewFile *.html 0r ~/docs/vim/skel.html
+"  au BufNewFile *.html*.shtml,*.htm /body/+
+"  au BufNewFile,BufRead *.html,*.shtml,*.htm set noautoindent
+"augroup end
+"-----------------------------------------------------
+"
+" arquivo de syntax do Aurélio Marinho Jargas
+" au BufNewFile,BufRead *.txt source ~/docs/conf/vim/txt.vim
+
+"-----------------------------------------------------
+" Procure usar a função "InsertHeadBash()" com o mesmo propósito
+" das linhas abaixo. A função citada insere um cabeçalho pronto
+" com "change log".
+" autocomandos para scripts
+"augroup sh
+"        au!
+"        au BufNewFile *.sh 0r ~/docs/vim/skel.sh
+"        au BufNewFile,BufRead *.sh set ts=4
+"augroup end
+
+" necessita do plugin potwiki
+" leia: http://sergioaraujo.pbwiki.com/potwiki
+au Filetype potwiki set sts=4
+highlight PotwikiWord          guifg=darkcyan
+highlight PotwikiWordNotFound  guibg=Red guifg=Yellow
+
+" busca por texto selecionado
+vmap // y/<C-R>"<CR>
+" copiar em modo visual
+vmap <F4> "+y
+" para colar todo o arquivo "+p
+
+" Folding configuration ========
+" Método de folders
+" set foldmethod=marker
+"set foldlevel=0
+"map +   v%zf
+"set fmr={{{,}}}
+
+" insere o nome do arquivo
+"   "%p  no modo normal
+"   <C-R>% no modo insert
+" zM  ...... fecha todos os folders abertos
+
+" precarregando registros
+"  para repetir um comando faça:    @:
+let @s=":%!sort -u"
+
+" Remove Ctrl+M do final de linhas do DOS
+" get rid of
+if has("user_commands")
+  " remove ^M from the file
+  com! RemoveCtrlM :%s/^M/\r/g
+  " change to directory of current file
+  com! CD cd %:p:h
+endif
+
+" syntax para endereços ip
+syn match ipaddr /\(\(25\_[0-5]\|2\_[0-4]\_[0-9]\|\_[01]\?\_[0-9]\_[0-9]\?\)\.\)\{3\}\(25\_[0-5]\|2\_[0-4]\_[0-9]\|\_[01]\?\_[0-9]\_[0-9]\?\)/
+hi link ipaddr Identifier
+
+"-----------------------------------------------------
+" Ao editar um arquivo será aberto no ultimo ponto em
+" que foi editado
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+"
+" change to directory of current file automatically
+"autocmd BufEnter * lcd %:p:h
+
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+
+"   vim: set fdm=marker tw=78:ts=3
