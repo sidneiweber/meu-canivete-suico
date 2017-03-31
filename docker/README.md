@@ -1,26 +1,26 @@
 # Docker
 ## Comandos básicos
 ##### Baixar imagem
-docker pull [nome da imagem]
+`docker pull [nome da imagem]`
 ##### Listar imagens
-docker images
-
-docker run [nome da imagem ou id] # iniciar container com a imagem baixada
-
-docker ps # listar containers
-
-docker ps -a # Verifica todos os containers, inclusive os que estão parados
-
-docker exec [id do container] [comando] # executa comandos no container
-
-docker rm [id do container]
+`docker images`
+##### Iniciar container com a imagem baixada
+`docker run [nome da imagem ou id]`
+##### Listar containers
+`docker ps`
+##### Verifica todos os containers, inclusive os que não estão rodando
+`docker ps -a`
+##### Executa comandos no container
+`docker exec [id do container] [comando]`
+##### Remover container
+`docker rm [id do container]`
 
 #### Iniciar bash em um container
 ```shell
 docker exec -it <nome_container> bash
 ```
 #### Iniciar container com opções a mais
-```bash
+```shell
 docker run -it -p <porta_host>:<porta_container> --name <nome_container> <nome_imagem>
 ```
 
