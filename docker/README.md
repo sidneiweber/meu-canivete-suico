@@ -2,11 +2,17 @@
 ## Comandos básicos
 
 docker pull [nome da imagem] # baixar imagem
+
 docker images # listar imagens
+
 docker run [nome da imagem ou id] # iniciar container com a imagem baixada
+
 docker ps # listar containers
+
 docker ps -a # Verifica todos os containers, inclusive os que estão parados
+
 docker exec [id do container] [comando] # executa comandos no container
+
 docker rm [id do container]
 
 #### Iniciar bash em um container
