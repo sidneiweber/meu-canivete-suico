@@ -25,7 +25,7 @@ docker rmi -f <nome_imagem>
 docker cp <nome_container>:/caminho/no/container /caminho/no/host
 
 # Salvando alterações de um container
-```
+```shell
 root@black:/home/sidnei# docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                  NAMES
 f8d74ee7155a        7e616530e7ea        "/bin/bash"         12 minutes ago      Up 12 minutes       0.0.0.0:8080->80/tcp   lonely_mccarthy
