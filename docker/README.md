@@ -10,19 +10,28 @@ docker exec [id do container] [comando] # executa comandos no container
 docker rm [id do container]
 
 #### Iniciar bash em um container
+```shell
 docker exec -it <nome_container> bash
-
+```
 #### Iniciar container com opções a mais
+```shell
 docker run -it -p <porta_host>:<porta_container> --name <nome_container> <nome_imagem>
+```
 
 #### Verificar logs container
+```shell
 docker logs <nome_container>
+```
 
 #### Remover imagem baixada
+```shell
 docker rmi -f <nome_imagem>
+```
 
 #### Copiar arquivo do container para o host
+```shell
 docker cp <nome_container>:/caminho/no/container /caminho/no/host
+```
 
 # Salvando alterações de um container
 ```shell
