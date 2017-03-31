@@ -1,9 +1,9 @@
 # Docker
 ## Comandos básicos
-##### Baixar Imagem
+##### Baixar imagem
 docker pull [nome da imagem]
-
-docker images # listar imagens
+##### Listar imagens
+docker images
 
 docker run [nome da imagem ou id] # iniciar container com a imagem baixada
 
@@ -20,7 +20,7 @@ docker rm [id do container]
 docker exec -it <nome_container> bash
 ```
 #### Iniciar container com opções a mais
-```shell
+```bash
 docker run -it -p <porta_host>:<porta_container> --name <nome_container> <nome_imagem>
 ```
 
