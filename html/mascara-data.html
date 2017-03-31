@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>Mascara de datas < /title>
+<script language="JavaScript" type="text/javascript">
+   function mascaraData(campoData){
+              var data = campoData.value;
+              if (data.length == 2){
+                  data = data + '/';
+                  document.forms[0].data.value = data;
+      return true;              
+              }
+              if (data.length == 5){
+                  data = data + '/';
+                  document.forms[0].data.value = data;
+                  return true;
+              }
+         }
+</script>
+</head>
+
+<body>
+
+<form>
+ <input type="text" name="data" OnKeyUp="mascaraData(this);" maxlength="10" / >
+</form>
+</body>
+</html>
