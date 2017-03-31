@@ -1,7 +1,7 @@
 # Docker
 ## Comandos básicos
-
-docker pull [nome da imagem] # baixar imagem
+###### Baixar Imagem
+docker pull [nome da imagem]
 
 docker images # listar imagens
 
