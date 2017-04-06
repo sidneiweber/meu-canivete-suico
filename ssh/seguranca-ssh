@@ -6,6 +6,7 @@ AllowUsers pedro juca
 PermitRootLogin no
 
 # Alterar porta padrao
+#
 Port 2258
 
 # Bloquear ataques de força bruta com iptables

@@ -5,7 +5,8 @@ puts "Ola Mundo"
 "ola mundo".length # Conta caracteres
 "ola mundo" * 5 # Repete 5 vezes o ola mundo
 
-print poem # Imprime poema ???
+poem = "TExtao ta porra mas tem a palavra toast, sim toast "
+print poem # Imprime poema que estava no exercicio
 poem['toast']='honeydew' # Substitui a palavra toast por honeydew dentro da variavel poem
 print poem
 
@@ -25,7 +26,7 @@ puts a
 puts b
 puts c
 
-40.reverse # Não converte pois não e string
+#40.reverse # Não converte pois não e string
 40.to_s.reverse # Converte para string e apos isso inverte
 # o_s converte valor para strings.
 # to_i converte valor para inteiro (numbers.)
@@ -37,7 +38,7 @@ puts c
 [12, 25, 37].max # Retorna o valor maior
 # Salvar array em uma variavel
 variavel=[12, 35, 19]
-variavel.sort # Ordena do menor pro maior
+puts variavel.sort # Ordena do menor pro maior
 
 
 # Criar metodo

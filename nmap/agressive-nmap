@@ -1,1 +1,1 @@
-nmap -T Aggressive -A -v 127.0.0.1
+nmap -T Aggressive -A -v 10.0.0.106 #127.0.0.1
