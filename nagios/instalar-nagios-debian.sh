@@ -1,8 +1,20 @@
 #!/bin/bash
+# instalar-nagios-debian.sh
+# Criado por Sidnei Weber
 
 # Variaveis
+VERSAO_NAGIOS=4.2.4
+VERSAO_PLUGINS=2.1.4
+USUARIO=`whoami`
 
 # Verificar se é root
+if [ "$USUARIO" == "root" ]
+then
+	echo "O poder está em suas mãos!"
+else
+	echo "Você precisa ter poderes de Super Vaca!"
+	exit 0
+fi
 
 # Verificar internet
 clear
@@ -10,9 +22,9 @@ echo "Verificando conexão com internet"
 curl www.google.com &> /dev/null
 if [ "$?" != "0" ]; then
   echo "Sem conexao. Saindo do instalador"
-  exit
+  exit 0
  else
-  "Conexao ok. Continuando!"
+  echo "Conexao ok. Continuando!"
 fi
 
 # Instalação das dependencias
@@ -21,12 +33,13 @@ apt-get install wget build-essential apache2 php-gd libgdchart-gd2-xpm libgdchar
 
 # Baixando Nagios
 # Nagios core
-
+https://assets.nagios.com/downloads/nagioscore/releases/nagios-$VERSAO_NAGIOS.tar.gz
 # Nagios plugins
-
+https://nagios-plugins.org/download/nagios-plugins-$VERSAO_PLUGINS.tar.gz
 # Extrair pacotes
-tar -xzvf 
-tar -xzvf
+tar -xzvf https://assets.nagios.com/downloads/nagioscore/releases/nagios-$VERSAO_NAGIOS.tar.gz
+# Nagios plugins
+tar -xzvf https://nagios-plugins.org/download/nagios-plugins-$VERSAO_PLUGINS.tar.gz
 
 # Adicionar usuario e grupo
 useradd nagios
@@ -45,12 +58,15 @@ make install-commandmode
 make install-webconf
 
 # Reiniciar apache
+echo "Reiniciando Apache"
 service apache2 restart
 
 # Criar usuario e senha para acessar NAGIOS
+echo "Escolha uma senha para o usuário nagiosadmin."
 htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
 
 # Compilar plugins
+cd ..
 cd nagios-plugins
 ./configure --with-nagios-user=nagios --with-nagios-group=nagios
 make
