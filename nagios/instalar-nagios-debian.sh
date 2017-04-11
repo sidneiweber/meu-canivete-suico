@@ -33,9 +33,10 @@ apt-get install wget build-essential apache2 php-gd libgdchart-gd2-xpm libgdchar
 
 # Baixando Nagios
 # Nagios core
-https://assets.nagios.com/downloads/nagioscore/releases/nagios-$VERSAO_NAGIOS.tar.gz
+echo "Baixando pacotes do Nagios"
+wget -c https://assets.nagios.com/downloads/nagioscore/releases/nagios-$VERSAO_NAGIOS.tar.gz
 # Nagios plugins
-https://nagios-plugins.org/download/nagios-plugins-$VERSAO_PLUGINS.tar.gz
+wget -c https://nagios-plugins.org/download/nagios-plugins-$VERSAO_PLUGINS.tar.gz
 # Extrair pacotes
 tar -xzvf https://assets.nagios.com/downloads/nagioscore/releases/nagios-$VERSAO_NAGIOS.tar.gz
 # Nagios plugins
@@ -48,7 +49,7 @@ usermod -a -G nagios nagios
 usermod -a -G nagios www-data
 
 # Compilar Nagios
-cd nagios
+cd nagios-$VERSAO_NAGIOS
 ./configure --with-command-group=nagios
 make all
 make install
@@ -67,13 +68,13 @@ htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
 
 # Compilar plugins
 cd ..
-cd nagios-plugins
+cd nagios-plugins-$VERSAO_PLUGINS
 ./configure --with-nagios-user=nagios --with-nagios-group=nagios
 make
 make install
 
 # Habilitar CGI no apache
-cp /etc/apache2/mods-available/cgi.load /etc/apache2/mods-enable/
+cp -r /etc/apache2/mods-available/cgi.load /etc/apache2/mods-enable/
 service apache2 reload
 
 # Verificar configuracao
