@@ -1,9 +1,10 @@
 ## Parâmetros
+```
 $@ ou $* - Todos os parâmetros a partir de $1.
 $# - O número de parâmetros passados.
 $$ - Pid do processo atual.
 $0 - O nome do script.
-
+```
 ## Comandos Test
 -eq igual
 -ne diferente
