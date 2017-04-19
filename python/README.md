@@ -45,8 +45,11 @@ isalpha()	retorna False se a string contiver algum caracter que não seja letras
 
 Acessando pelo index
 +---+---+---+---+---+---+
+
 | p | y | t | h | o | n |
+
 +---+---+---+---+---+---+
+
   0   1   2   3   4   5
 ```python
 "python"[0] # 'p'
