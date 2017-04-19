@@ -3,9 +3,19 @@
 ## Tipos de dados
 | Tipo          | Valores       | 
 | ------------- |:-------------:|
-| Numérico      | int, float    |
+| Numérico      | int, float,long|
 | String        | str           |
 | Booleanos     | bool (True, False)|
+| Dicionários   | dict          |
+| Arquivos      | file          |
+
+## Operadores booleanos
+### Operadores relacionais
+== != > >= < <= is is not
+-- Sempre retornam um bool
+### Operadores lógicos
+and or
+not
 
 ## Entrada de dados
 ```python
@@ -70,6 +80,15 @@ sorted(s)	devolve uma lista com itens de s em ordem ascendente
 
 reversed(s)	retorna um iterador para percorrer os elementos do último ao primeiro
 
+### Operadores
++ Soma
+- Subtração
+* Multiplicação
+/ Divisão
+(*.*) Potenciação
+% Resto da divisão
+// Divisão inteira
+
 
 ## Controle de fluxo (condicionais)
 ```python
@@ -114,6 +133,8 @@ print("Let's not go to %s. 'Tis a silly %s." % (nome, sobrenome))
 # Ou
 print ("Lets no to go", nome, "tis a silly", sobrenome)
 ```
+Tipos de conversão mais comuns:
+%s, %f, %d: string, float, inteiro decimal
 
 ## Função
 ```python
