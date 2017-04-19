@@ -32,21 +32,17 @@ print(spam())
 ```
 
 ## Escrita, string
-len()	mostra o tamanho da string
+**len()**	mostra o tamanho da string
 
-lower()	caixa baixa
+**lower()**	caixa baixa
 
-upper()	caixa alta
+**upper()**	caixa alta
 
-str()	converte em string
+**str()**	converte em string
 
-isalpha()	retorna False se a string contiver algum caracter que não seja letras
+**isalpha()**	retorna False se a string contiver algum caracter que não seja letras
 
 Acessando pelo index
-
-|p|y|t|h|o|n|
-
-|0|1|2|3|4|5|
 
 ```python
 "python"[0] # 'p'
