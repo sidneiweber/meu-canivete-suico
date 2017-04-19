@@ -34,9 +34,13 @@ print(spam())
 
 ## Escrita, string
 len()	mostra o tamanho da string
+
 lower()	caixa baixa
+
 upper()	caixa alta
+
 str()	converte em string
+
 isalpha()	retorna False se a string contiver algum caracter que não seja letras
 
 Acessando pelo index
