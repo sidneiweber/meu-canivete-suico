@@ -1,5 +1,4 @@
 # Um pouco sobre Python
-======
 
 ## Tipos de dados
 | Tipo          | Valores       | 
@@ -68,9 +67,13 @@ Acessando pelo index
 
 ## Matemática
 max(5, 6, 7) # 7
+
 min(5, 6, 7) # 5
+
 sorted(s)	devolve uma lista com itens de s em ordem ascendente
+
 reversed(s)	retorna um iterador para percorrer os elementos do último ao primeiro
+
 
 ## Controle de fluxo (condicionais)
 ```python
