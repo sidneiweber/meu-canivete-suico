@@ -1,0 +1,132 @@
+### Tipos
+float
+str
+int
+bool (True and false) (and, or, not)
+
+and 	A = True 	A = False
+B = True 	True 	False
+B = False 	False 	False
+
+or 	A = True 	A = False
+B = True 	True 	True
+B = False 	True 	False
+
+### MATEMATICA
+5-8
+2+5*2 # faz primeiro a multiplicacao
+
+operador de potenciacao
+2 ** 3
+10 ** 6
+
+Comparacao
+2 < 20 # Menor
+> # Maior
+<= Menor igual
+>= Maior Igual
+== Igual
+Retorna true ou false
+9 ** 2 == 80 +1
+!= Diferente
+
+### VARIAVEIS
+x = 5
+x # responde 5
+y = 10*32+x
+y vai dar 325
+x= x+5 # Acrenscenta ao valor antigo
+print (x)git
+
+frase= "Ola mundo"
+
+##### TIPOS DE DADOS
+type(10)
+retorna tipo de 10 que é int (inteiro)
+type("Ola")
+retorna str (string)
+type(5/2)
+retona float (2.5 ponto flutuante)
+
+divisao inteira 10//3 = resultado 3
+resto divisao 10 %3 = resultado 1
+
+converter float para int
+numeroreal= int(numerofloat)
+
+len(texto)
+comprimento texto
+
+temp=str(numerofloat) # guarda priimeiro em uma variavel
+len(temp)
+len(str(numerofloat)) # conversao direta
+comprimento float
+
+#### ENTRADA DE DADOS
+na pasta entrada
+
+#### Valores booleanos
+Verdadeiro e falso
+5>3 = True
+and = os dois lados tem que ser verdadeiro
+x>0 and x **2 >100
+or = um dos comparativos deve ser verdadeiro
+x<0 or x == 12312
+not = inverte o valor de um boleano
+not x>0
+inverte verdadeiro por falso
+
+#### CONDICOES
+if condicao:
+	comando
+comando2
+
+temperatura=102
+if temperatura  > 100:
+	aguaferve = True
+	evaporação = "muito rapida"
+else:
+	comando3
+
+if x<0:
+	print("X menor que 0")
+elif x ==0:
+	print("x igual 0")
+elif x ==1:
+	print ("x igual 1")
+else:
+	print ("x é diferente de 0 e 1" )
+
+### Raiz quadrado
+Precisa importar o math
+import math
+math.sqrt(9)
+
+### WHILE
+while condicao:
+	comando1
+	comando2
+
+### INDICADORES DE PASSAGEM
+decrescente=True
+
+### DEPURADOR DE ERROS (Debbuger)
+proprio idle tem depuradorsidne
+sys
+
+### FUNCOES
+
+### TESTES
+
+### REPETICOES ENCAIXADAS
+
+### LISTAS (array)
+Coleção de objetos
+["objeto 1", "Objeto 2", "objeto 3"]
+
+### FOR
+for item in lista:
+	COMANDO
+
+### RANGE
+range(20)
