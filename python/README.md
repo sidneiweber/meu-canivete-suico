@@ -72,6 +72,8 @@ Acessando pelo index
 ```
 
 ## Matemática
+2+5*2 # faz primeiro a multiplicacao
+
 max(5, 6, 7) # 7
 
 min(5, 6, 7) # 5
@@ -88,6 +90,13 @@ reversed(s)	retorna um iterador para percorrer os elementos do último ao primei
 (*.*) Potenciação
 % Resto da divisão
 // Divisão inteira
+
+Raiz quadrada
+Precisa importar o math
+```python
+import math
+math.sqrt(9)
+```
 
 
 ## Controle de fluxo (condicionais)
@@ -163,3 +172,55 @@ animais[1]   # 'cassowary'
 animais[2]   # 'sloth'
 animais[3]   # 'dog'
 len(animais) # 4
+```
+
+* Fatiar lista
+lista[inicio:fim]
+lista[inicio:]
+lista[:fim]
+lista[:] # Cria clone da lista
+
+* Clonar lista
+lista["vermelho", "verde", "azul"]
+lista2= lista
+
+lista e lista2 apontam uma para outra
+
+* Para separar as listas
+def clone (lista)
+ clone = []
+ for objeto in lista:
+  clone.append(objeto)
+ return clone
+
+* Pertinencia a uma lista
+saber se elemento está dentro da lista
+"Vermelho" in lista1
+"rosa" in lista2
+devolve true ou false
+
+* Concatenação de lista
+basta adicionar +
+[1,2] + [3,4]
+print([1,2] + [3,4])
+a = [1,2]
+b = [3,4]
+a + b
+
+* Repetição de listas
+a = [1,2,3]
+a_triplicado = a * 3
+a = [1,2,3,1,2,3,1,2,3]
+
+* Remoção em listas
+a = [1,2,3]
+del a[1]
+del a[1:5] # deleta uma fatia
+
+### FOR
+for item in lista:
+	COMANDO
+
+### RANGE
+for item in range(20):
+	COMANDO
