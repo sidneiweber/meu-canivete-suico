@@ -175,52 +175,69 @@ len(animais) # 4
 ```
 
 * Fatiar lista
+```python
 lista[inicio:fim]
 lista[inicio:]
 lista[:fim]
 lista[:] # Cria clone da lista
+```
 
 * Clonar lista
+```python
 lista["vermelho", "verde", "azul"]
 lista2= lista
+```
 
 lista e lista2 apontam uma para outra
 
 * Para separar as listas
+```python
 def clone (lista)
  clone = []
  for objeto in lista:
   clone.append(objeto)
  return clone
+ ```
 
 * Pertinencia a uma lista
 saber se elemento está dentro da lista
+
 "Vermelho" in lista1
 "rosa" in lista2
+
 devolve true ou false
 
 * Concatenação de lista
-basta adicionar +
+```python
+# basta adicionar +
 [1,2] + [3,4]
 print([1,2] + [3,4])
 a = [1,2]
 b = [3,4]
 a + b
-
+```
 * Repetição de listas
+```python
 a = [1,2,3]
 a_triplicado = a * 3
 a = [1,2,3,1,2,3,1,2,3]
+```
 
 * Remoção em listas
+```python
 a = [1,2,3]
 del a[1]
 del a[1:5] # deleta uma fatia
+```
 
 ### FOR
+```python
 for item in lista:
 	COMANDO
+```
 
 ### RANGE
+```python
 for item in range(20):
 	COMANDO
+```
