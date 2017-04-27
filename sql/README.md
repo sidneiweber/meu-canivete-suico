@@ -48,7 +48,7 @@ describe nometabela;
 ```
 
 ### Exportar e importar tabelas
-```shell
+```sql
 mysqldump -u user -p senha banco > banco.sql
 
 mysql -u user -p senha banco < banco.sql
