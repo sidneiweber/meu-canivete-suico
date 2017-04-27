@@ -1,11 +1,11 @@
 # Anotações do Mysql
 ### Logar via terminal
-```
+```sql
 mysql -h host -u usuario -p [ENTER]
 ```
 
 ### Criar banco de dados
-```
+```sql
 create database nomedobanco;
 ```
 
