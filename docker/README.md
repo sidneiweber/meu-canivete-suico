@@ -5,17 +5,29 @@
 docker pull [nome da imagem]
 ```
 ##### Listar imagens
-`docker images`
+```shell
+docker images
+```
 ##### Iniciar container com a imagem baixada
-`docker run [nome da imagem ou id]`
+```shell
+docker run [nome da imagem ou id]
+```
 ##### Listar containers
-`docker ps`
+```shell
+docker ps
+```
 ##### Verifica todos os containers, inclusive os que não estão rodando
-`docker ps -a`
+```shell
+docker ps -a
+```
 ##### Executa comandos no container
-`docker exec [id do container] [comando]`
+```shell
+docker exec [id do container] [comando]
+```
 ##### Remover container
-`docker rm [id do container]`
+```shell
+docker rm [id do container]
+```
 
 #### Iniciar bash em um container
 ```shell
