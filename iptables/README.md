@@ -25,4 +25,7 @@ Locais onde as regras são armazenadas para operação do firewall:
 ### Políticas. ações (targets)
 
 **ACCEPT**: pacote permitido
+
 **DROP**: descartar o pacote
+
+**QUEUE**: enviar o pacote ao userspace (Código fora do kernel)
