@@ -1,0 +1,15 @@
+#!/bin/bash
+
+zenity --warning --text=" Este é o SCP-Facil, na proxima tela selecione o arquivo a ser enviado e em seguida preencha corretamente os outros dados"
+
+ARQUIVO=`zenity --file-selection --title="Escolha o arquivo a ser mandado!"`
+ 
+PORTA=`zenity --entry --title="Qual a porta?" --text="Digite a porta da máquina de conexão"`
+
+USE=`zenity --entry --title="Qual o usuario?" --text="Digite o usuário de conexão"`
+
+IP=`zenity --entry --title="Qual o IP?" --text="Digite o IP da máquina de destino"`
+
+scp -r -P$PORTA $ARQUIVO $USE@$IP:~ && zenity --info --text=" Arquivo enviado com sucesso" || zenity --error --text="Erro ao enviar arquivo, verifique se os dados estão corretos" 
+
+exit 0
