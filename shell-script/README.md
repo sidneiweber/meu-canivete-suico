@@ -58,7 +58,7 @@ Imprima uma string na saída padrão
 ```
 
 ## Variáveis
-```
+```shell
 ${var:-texto} = Se var não está definida, retorna 'texto'
 ${#var} = Retorna o tamanho da string
 ${!var} = Executa o conteúdo de $var
@@ -78,7 +78,7 @@ done
 ```
 
 ## While
-```
+```shell
 while CONDICAO;
   do
     comandos
@@ -86,7 +86,7 @@ while CONDICAO;
 ```
 
 ## Case
-```
+```shell
 case $VAR in
   caso1) comandos;;
   caso2) comandos;;
@@ -94,7 +94,7 @@ esac
 ```
 
 ## Função
-```
+```shell
 function nome_função()
 {
 comandos
