@@ -241,3 +241,33 @@ for item in lista:
 for item in range(20):
 	COMANDO
 ```
+
+### Módulos
+```
+import calc
+lista = [23, 54, 31, 77, 12, 34]
+# Chamada a função definida em calc
+print calc.media(lista)
+
+# Módulo para matemática
+import math
+# Módulo para matemática (de complexos)
+import cmath
+# Módulo random aleatório
+import random
+# Escolha uma letra
+print random.choice(string.ascii_uppercase)
+# Escolha um número de 1 a 10
+print random.randrange(1, 11)
+import os.path
+	getsize
+	getmtime
+import sys
+import glob
+import fractions
+import os
+import modutils
+import time
+	localtime
+	asctime
+```
