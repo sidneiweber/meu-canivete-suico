@@ -243,7 +243,7 @@ for item in range(20):
 ```
 
 ### Módulos
-```
+```python
 import calc
 lista = [23, 54, 31, 77, 12, 34]
 # Chamada a função definida em calc
