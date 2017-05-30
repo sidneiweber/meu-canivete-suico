@@ -1,4 +1,5 @@
 #!/bin/bash
+HOSTNAME=`hostname`
 clear #limpa a tela
 echo "Digite seu nome:"
 read nome
