@@ -46,11 +46,19 @@ print(spam())
 
 **lower()**	caixa baixa
 
+**capitalizae()**	primeira letra maiuscúla
+
 **upper()**	caixa alta
 
 **str()**	converte em string
 
 **isalpha()**	retorna False se a string contiver algum caracter que não seja letras
+
+**strip()**	remove espaços em branco antes e depois
+
+**replace("velho", "novo")**	substitui velho por novo na string
+
+Ex: variavel.len()
 
 Acessando pelo index
 
