@@ -10,7 +10,7 @@ docker images
 ```
 ##### Iniciar container com a imagem baixada
 ```shell
-docker run [nome da imagem ou id]
+docker run -it [nome da imagem ou id]
 ```
 ##### Listar containers
 ```shell
