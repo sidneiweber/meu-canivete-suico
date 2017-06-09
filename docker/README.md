@@ -1,4 +1,9 @@
 # Docker
+## Instalar
+##### Instalando docker
+```shell
+curl -sSL https://get.docker.com | sh
+```
 ## Comandos básicos
 ##### Baixar imagem
 ```shell
@@ -24,6 +29,24 @@ docker ps -a
 ```shell
 docker exec [id do container] [comando]
 ```
+##### Sair do container sem fechar, usar a combinaço de teclas
+```shell
+control+p+q
+```
+##### Voltar para dentro de um container em execuço
+```shell
+docker attach [id do container]
+```
+##### Inspecionar o container (mostra muitos detalhes do container)
+```shell
+docker inspect [id do container]
+```
+##### Consumo do container no host
+```shell
+docker stats
+CONTAINER           CPU %               MEM USAGE / LIMIT    MEM %               NET I/O             BLOCK I/O           PIDS
+e8d6ad7a5b3b        0.03%               3.465MiB / 11.7GiB   0.03%               648B / 0B           0B / 4.1kB          6
+```
 ##### Remover container
 ```shell
 docker rm [id do container]
@@ -32,6 +55,11 @@ docker rm [id do container]
 #### Iniciar bash em um container
 ```shell
 docker exec -it <nome_container> bash
+```
+#### Fazendo dois containers se enxergarem (clever_poitras já estava rodando)
+```shell
+docker run -it --name web02 --link clever_poitras:web01 3d49e175ec00 /bin/bash
+ping web01 # responde OK
 ```
 #### Iniciar container com opções a mais
 ```shell
