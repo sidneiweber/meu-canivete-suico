@@ -113,3 +113,40 @@ root@black:/home/sidnei# docker images
 REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE
 debian-apache         latest              9a232ff09aaf        4 seconds ago       226.9 MB
 ```
+
+#### Docker Compose
+```shell
+# build = Indica o caminho do Dockerfile
+build: .
+# command = Executa um comando
+command: bundle exec thin -p 3000
+# container_name = Nome para container
+container_name = servidor-web
+# dns = Indica o dns server
+dns: 8.8.8.8
+#dns_search = Especifica search domain
+dns_search: example.com
+# env_file = Especifica um arquivo de variáveis de ambiente
+env_file: .env
+# environment = Adiciona variáveis de ambiente
+RACK: development
+# expose = expõe a porta do container
+expose:
+- "3000"
+- "8000"
+# external_links = linka containers fora do compose
+external_links:
+- projeto_db:mysql
+# image = Indica uma imagem
+image: ubuntu:14.04
+# links = linka containers do compose
+links:
+- db
+- db:database
+# net = modo de rede
+net: "bridge"
+net: "host"
+# volumes = monta volumes
+volumes:
+- /var/www/html
+```
