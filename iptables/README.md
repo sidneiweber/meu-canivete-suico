@@ -29,3 +29,63 @@ Locais onde as regras são armazenadas para operação do firewall:
 **DROP**: descartar o pacote
 
 **QUEUE**: enviar o pacote ao userspace (Código fora do kernel)
+**RETURN**: descontinuar o processamento do pacote e aplicar a regra padrao a ele
+**REJECT**: Descarta o pacote e envia feedback ao remetente
+**DNAT**: Reescreve endereço de destino (NAT)
+**SNAT**: Reescreve endereço de origem (NAT)
+**LOG**: coloca no log informações sobre o pacte
+
+Estrutura do comando:
+Comando principal:
+
+iptables subcomando chain parametro1 valor1 parametron valorn ação
+Subcomandos:
+
+-A cadeia – anexa a regra ao final da cadeia
+-L [cadeia] lista as regras da cadeia, ou todas caso a cadeia nao seja especificada
+-F [cadeia] apaga todas as regras na cadeia
+-N cadeia – Lista todas as regras na cadeia
+-P cadeia politica – configura a regra padrão da cadeia
+-D cadeia linha – apaga uma regra em um posição na cadeia
+-X [cadeia] excluiu uma cadeia vazia
+-I cadeia linha – insere uma regra em uma posição na cadeia
+-Z zera os contadores para todas as cadeias
+Parametros, alguns:
+
+-t tabela (filter é a padrao)
+-j ação
+-p protocolo (especifica o protocolo, icmp, tcp, udp, all)
+-s IP (IP de origem do pacote)
+-d IP (IP de destino do pacte)
+-i interface (nome da interface de rede de entrada do pacote)
+-o interface (nome da interface de rede de saida do pacote)
+–sport portas (Portas de origem)
+–dport portas (Portas de destino)
+–syn (identifica nova requisição de conexao)
+–icmp-type (tipo de mensagem icmp)
+Checagem de estado dos pacotes (state match):
+
+-m state –state OPCAO
+NEW cria uma nova conexao
+ESTABLISHED pacote que pertence a uma conexao existente
+RELATED pacote relacionado mas que nao faz parte de uma conexao existente
+INVALID pacote nao pode ser identificado (ex. falta memoria, erro ICMP de conexao nao conhecida)
+Extensões:
+
+Extensao TCP
+–tcp-flags (ALL, SYN, ACK, FIN, etc)
+–source-port ou –sport
+–destination-port ou –dport
+
+Extensao UDP
+Mesmas opções do TCP
+
+Extensao ICMP
+–icmp-type
+
+Outras extensoes
+-m limit quando usado em LOG serve para limitar o numero de pacotes escritos durante um certo ponto
+–limit valor
+Arquivos de logs criados pelo iptables:
+
+Todo tráfego que for registrado pelo iptables é registrado por padrão no arquivo /var/log/kern.log.

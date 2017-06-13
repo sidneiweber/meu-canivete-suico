@@ -1,5 +1,8 @@
 Servidor de monitoramento NAGIOS
 
+### Instalação
+Vide script
+
 ### Arquivos
 cgi.cfg - Configurações para acesso a interface do Nagios
 

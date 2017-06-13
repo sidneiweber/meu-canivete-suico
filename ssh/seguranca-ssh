@@ -14,3 +14,15 @@ Port 2258
 iptables -I input -p tcp --dport 22 -i eth0 -m state --state NEW -m recent -set
 iptables -I input -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --update --seconds 60 --hitcount 4 -j DROP
 iptables -A INPUT -P tcp --destination-port 22 -j ACCEPT
+
+### Diminuindo tentativas de invasão via SSH
+Dentro do arquivo /etc/ssh/sshd_config altere as seguintes linhas:
+
+LoginGraceTime 2m
+MaxStartups 3:50:6
+
+Explicando:
+
+O primeiro parâmetro informa que a conexão será cortada caso fique inativa por 2 minutos.
+
+O segundo quer dizer que depois de 3 tentativas não autenticadas, 50% das conexões do IP são recusadas e quando o número de de tentavivas chegar a 6 todas as tentativas de conexões do IP serão recusadas.
