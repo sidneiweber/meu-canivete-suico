@@ -47,6 +47,25 @@ docker stats
 CONTAINER           CPU %               MEM USAGE / LIMIT    MEM %               NET I/O             BLOCK I/O           PIDS
 e8d6ad7a5b3b        0.03%               3.465MiB / 11.7GiB   0.03%               648B / 0B           0B / 4.1kB          6
 ```
+##### Limitar memória do container
+```shell
+docker run -it -m 512M ubuntu /bin/bash
+docker run -it -m 1G ubuntu /bin/bash
+docker inspect [container id] |grep -i mem
+```
+##### Limitar CPU do container
+```shell
+docker run -it --cpu-shares 1024 ubuntu /bin/bash
+docker inspect [container id] |grep -i cpu
+```
+##### Atualizar limite memória container em execução
+```shell
+docker update -m 256M [container id]
+```
+##### Atualizar limite CPU container em execução
+```shell
+docker update --cpu-shares 512 [container id]
+```
 ##### Remover container
 ```shell
 docker rm [id do container]
