@@ -1,7 +1,7 @@
 # Um pouco sobre Python
 
 ## Tipos de dados
-| Tipo          | Valores       | 
+| Tipo          | Valores       |
 | ------------- |:-------------:|
 | Numérico      | int, float,long|
 | String        | str           |
@@ -162,10 +162,10 @@ print(funcao())
 ###
 def soma (x, y):
   return x + y
-  
+
 def menos (x, y):
   return x - y
-  
+
 #print(soma(1, 5))
 n1=int(input("Digite o 1 valor: "))
 n2=int(input("Digite o 2 valor: "))
@@ -270,7 +270,8 @@ print random.randrange(1, 11)
 import os.path
 	getsize
 	getmtime
-import sys
+# Módulos do sistema operacional
+import sys (sysarv = pega argumentos da linha comando)
 import glob
 import fractions
 import os
@@ -279,3 +280,6 @@ import time
 	localtime
 	asctime
 ```
+
+### Assert (Encerra programa se asserção for false)
+assert valor >= 0
