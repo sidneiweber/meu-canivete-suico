@@ -26,3 +26,7 @@ templates.cfg - Config de templates de Host, Contatos, Serviços
 timeperiods.cfg - Configurações dos horários de monitoramento
 
 windows.cfg - Exemplo de config Windows
+
+### Windows
+Baixar o programa abaixo:
+NSCLIENT
