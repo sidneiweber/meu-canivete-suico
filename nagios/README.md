@@ -1,9 +1,9 @@
 Servidor de monitoramento NAGIOS
 
-### Instalação
+## Instalação
 Vide script
 
-### Arquivos
+## Arquivos
 cgi.cfg - Configurações para acesso a interface do Nagios
 
 nagios.cfg - Configurações globais
@@ -27,21 +27,21 @@ timeperiods.cfg - Configurações dos horários de monitoramento
 
 windows.cfg - Exemplo de config Windows
 
-### Windows
+## Windows
 Baixar o programa abaixo:
 NSCLIENT
 
-### Linux com NRPE
-## No servidor
+## Linux com NRPE
+### No servidor
 ```shell
 apt-get install nagios-nrpe-plugin
 cp /usr/lib/nagios/plugins/check_nrpe /usr/local/nagios/libexec/
 ```
-## No cliente
+### No cliente
 ```shell
 apt-get install nagios-nrpe-server
 ```
-## Plugins
+### Plugins
 ```shell
 /usr/lib/nagios/plugins
 vi /etc/nagios/nrpe.cfg
@@ -55,7 +55,7 @@ command[check_disk]=/usr/lib64/nagios/plugins/check_disk -w 20% -c 10% -p /
 command[check_procs]=/usr/lib64/nagios/plugins/check_procs -w 250 -c 400 -s RSZDT
 command[check_crond]=/usr/lib64/nagios/plugins/check_procs -a '/usr/sbin/crond -n' -u root -c 1:1
 ```
-## Testando no servidor
+### Testando no servidor
 ```shell
 /usr/local/nagios/libexec/check_nrpe -n -H 10.0.0.102 -c check_sda1
 ```
