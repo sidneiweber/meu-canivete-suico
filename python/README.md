@@ -283,3 +283,18 @@ import time
 
 ### Assert (Encerra programa se asserção for false)
 assert valor >= 0
+
+### Classes
+```python
+# Classe vazia
+class Carro:
+	pass
+
+# Criar objeto da classe
+meu_carro = Carro()
+
+# Inserindo atributos ao objeto
+meu_carro.ano = 1968
+meu_carro.cor = "Azul"
+meu_carro.modelo = "Fusca"
+```
