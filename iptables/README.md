@@ -41,51 +41,51 @@ Comando principal:
 iptables subcomando chain parametro1 valor1 parametron valorn ação
 Subcomandos:
 
--A cadeia – anexa a regra ao final da cadeia
--L [cadeia] lista as regras da cadeia, ou todas caso a cadeia nao seja especificada
--F [cadeia] apaga todas as regras na cadeia
--N cadeia – Lista todas as regras na cadeia
--P cadeia politica – configura a regra padrão da cadeia
--D cadeia linha – apaga uma regra em um posição na cadeia
--X [cadeia] excluiu uma cadeia vazia
--I cadeia linha – insere uma regra em uma posição na cadeia
--Z zera os contadores para todas as cadeias
+-A cadeia – anexa a regra ao final da cadeia<br>
+-L [cadeia] lista as regras da cadeia, ou todas caso a cadeia nao seja especificada<br>
+-F [cadeia] apaga todas as regras na cadeia<br>
+-N cadeia – Lista todas as regras na cadeia<br>
+-P cadeia politica – configura a regra padrão da cadeia<br>
+-D cadeia linha – apaga uma regra em um posição na cadeia<br>
+-X [cadeia] excluiu uma cadeia vazia<br>
+-I cadeia linha – insere uma regra em uma posição na cadeia<br>
+-Z zera os contadores para todas as cadeias<br>
 Parametros, alguns:
 
--t tabela (filter é a padrao)
--j ação
--p protocolo (especifica o protocolo, icmp, tcp, udp, all)
--s IP (IP de origem do pacote)
--d IP (IP de destino do pacte)
--i interface (nome da interface de rede de entrada do pacote)
--o interface (nome da interface de rede de saida do pacote)
-–sport portas (Portas de origem)
-–dport portas (Portas de destino)
-–syn (identifica nova requisição de conexao)
-–icmp-type (tipo de mensagem icmp)
+-t tabela (filter é a padrao)<br>
+-j ação<br>
+-p protocolo (especifica o protocolo, icmp, tcp, udp, all)<br>
+-s IP (IP de origem do pacote)<br>
+-d IP (IP de destino do pacte)<br>
+-i interface (nome da interface de rede de entrada do pacote)<br>
+-o interface (nome da interface de rede de saida do pacote)<br>
+–sport portas (Portas de origem)<br>
+–dport portas (Portas de destino)<br>
+–syn (identifica nova requisição de conexao)<br>
+–icmp-type (tipo de mensagem icmp)<br>
 Checagem de estado dos pacotes (state match):
 
--m state –state OPCAO
-NEW cria uma nova conexao
-ESTABLISHED pacote que pertence a uma conexao existente
-RELATED pacote relacionado mas que nao faz parte de uma conexao existente
-INVALID pacote nao pode ser identificado (ex. falta memoria, erro ICMP de conexao nao conhecida)
+-m state –state OPCAO<br>
+NEW cria uma nova conexao<br>
+ESTABLISHED pacote que pertence a uma conexao existente<br>
+RELATED pacote relacionado mas que nao faz parte de uma conexao existente<br>
+INVALID pacote nao pode ser identificado (ex. falta memoria, erro ICMP de conexao nao conhecida)<br>
 Extensões:
 
-Extensao TCP
-–tcp-flags (ALL, SYN, ACK, FIN, etc)
-–source-port ou –sport
-–destination-port ou –dport
+Extensao TCP<br>
+–tcp-flags (ALL, SYN, ACK, FIN, etc)<br>
+–source-port ou –sport<br>
+–destination-port ou –dport<br>
 
-Extensao UDP
+Extensao UDP<br>
 Mesmas opções do TCP
 
-Extensao ICMP
+Extensao ICMP<br>
 –icmp-type
 
-Outras extensoes
--m limit quando usado em LOG serve para limitar o numero de pacotes escritos durante um certo ponto
-–limit valor
+Outras extensoes<br>
+-m limit quando usado em LOG serve para limitar o numero de pacotes escritos durante um certo ponto<br>
+–limit valor<br>
 Arquivos de logs criados pelo iptables:
 
 Todo tráfego que for registrado pelo iptables é registrado por padrão no arquivo /var/log/kern.log.
