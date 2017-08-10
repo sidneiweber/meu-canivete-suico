@@ -1,39 +1,28 @@
 ### Tabelas
 São os locais usados para armazenar as chais e conjunto de regras. As tabelas podem ser diferenciadas com a opção -t [tabela]
 
-**Tabela FILTER:** possui cadeias INPUT, OUTPUT, FORWARD.
-
-**Tabela NAT:** possui cadeias PREROUTING, OUTPUT, POSTROUTING.
-
-**Tabela MANGLE:** possui cadeias PREROUTING, OUTPUT, POSTROUTING, INPUT, FORWARD.
-
-**Tabela RAW:** possui cadeias PREROUTING, OUTPUT.
+**Tabela FILTER:** possui cadeias INPUT, OUTPUT, FORWARD.<br>
+**Tabela NAT:** possui cadeias PREROUTING, OUTPUT, POSTROUTING.<br>
+**Tabela MANGLE:** possui cadeias PREROUTING, OUTPUT, POSTROUTING, INPUT, FORWARD.<br>
+**Tabela RAW:** possui cadeias PREROUTING, OUTPUT.<br>
 
 ### Chains
-Locais onde as regras são armazenadas para operação do firewall:
+Locais onde as regras são armazenadas para operação do firewall:<br>
+**INPUT**: Aplica regra aos pacotes que chegam ao servidor.<br>
+**OUTPUT**: Aplica regra aos pacotes de rede originados e que partem do servidor.<br>
+**FORWARD**: Aplica regra aos pacotes de rede roteados através do servidor (para outro servidor ou outra interface do mesmo servidor).<br>
+**PREROUTING**: Altera os pacotes de rede na hora que chegam e antes do roteamento.<br>
+**POSTROUTING**: Altera pacotes de rede após o roteamento. Usado para SNAT.<br>
 
-**INPUT**: Aplica regra aos pacotes que chegam ao servidor.
-
-**OUTPUT**: Aplica regra aos pacotes de rede originados e que partem do servidor.
-
-**FORWARD**: Aplica regra aos pacotes de rede roteados através do servidor (para outro servidor ou outra interface do mesmo servidor).
-
-**PREROUTING**: Altera os pacotes de rede na hora que chegam e antes do roteamento.
-
-**POSTROUTING**: Altera pacotes de rede após o roteamento. Usado para SNAT.
-
-### Políticas. ações (targets)
-
-**ACCEPT**: pacote permitido
-
-**DROP**: descartar o pacote
-
-**QUEUE**: enviar o pacote ao userspace (Código fora do kernel)
-**RETURN**: descontinuar o processamento do pacote e aplicar a regra padrao a ele
-**REJECT**: Descarta o pacote e envia feedback ao remetente
-**DNAT**: Reescreve endereço de destino (NAT)
-**SNAT**: Reescreve endereço de origem (NAT)
-**LOG**: coloca no log informações sobre o pacte
+### Políticas. ações (targets)<br>
+**ACCEPT**: pacote permitido<br>
+**DROP**: descartar o pacote<br>
+**QUEUE**: enviar o pacote ao userspace (Código fora do kernel)<br>
+**RETURN**: descontinuar o processamento do pacote e aplicar a regra padrao a ele<br>
+**REJECT**: Descarta o pacote e envia feedback ao remetente<br>
+**DNAT**: Reescreve endereço de destino (NAT)<br>
+**SNAT**: Reescreve endereço de origem (NAT)<br>
+**LOG**: coloca no log informações sobre o pacte<br>
 
 Estrutura do comando:
 Comando principal:
