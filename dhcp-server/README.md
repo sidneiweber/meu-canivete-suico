@@ -31,9 +31,9 @@ subnet 10.0.0.0 netmask 255.255.255.0 {
 Explicando:
 
 Subnet: Iniciaremos uma sub-rede para ceder IP’s.<br>
-Range: A faixa de IP’s que será distribuida.
-Option Routers: Configura a rota padrão.
-Option domain-name-servers: Configura os servidores DNS.Option broadcast-address: Indica o fim da sub-rede.
+Range: A faixa de IP’s que será distribuida.<br>
+Option Routers: Configura a rota padrão.<br>
+Option domain-name-servers: Configura os servidores DNS.Option broadcast-address: Indica o fim da sub-rede.<br>
 
 Alguns outros parâmetros básicos que já vem no arquivo por padrão:
 ```shell
