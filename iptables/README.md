@@ -18,6 +18,7 @@ Locais onde as regras são armazenadas para operação do firewall:<br>
 **ACCEPT**: pacote permitido<br>
 **DROP**: descartar o pacote<br>
 **QUEUE**: enviar o pacote ao userspace (Código fora do kernel)<br>
+
 **RETURN**: descontinuar o processamento do pacote e aplicar a regra padrao a ele<br>
 **REJECT**: Descarta o pacote e envia feedback ao remetente<br>
 **DNAT**: Reescreve endereço de destino (NAT)<br>
