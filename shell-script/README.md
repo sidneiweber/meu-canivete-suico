@@ -45,6 +45,15 @@ else
 echo 'A variável $linux não existe.'
 fi
 ```
+Negando
+``` 
+if ! [ -e $linux ]
+then
+echo 'A variável $linux não existe.'
+else
+echo 'A variável $linux existe.'
+fi
+```
 
 ## echo
 Imprima uma string na saída padrão
