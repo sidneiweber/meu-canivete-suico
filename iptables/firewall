@@ -1,0 +1,244 @@
+#!/bin/bash
+
+## VARIÁVEIS QUE VÃO CONTROLAR AS INTERFACES DE ENTRADA E SAÍDA
+
+echo "CARREGANDO FIREWALL"
+
+echo -n "LIMPANDO TUDO........................."
+
+INTERNET="eth0"
+REDE_INTERNA="eth1"
+
+## PORTA PARA INPUT E OUTPUT DE SERVIÇOS ( liberadas )
+
+TCP_PORT="443,80,3128,20,21,1863,33434,25,110,6088,2631,5900,4899,1449"
+UDP_PORT="80,443,53,25,110,60712"
+VNC="5900"
+RADMIN="4899"
+EMULE_TCP="6088"
+EMULE_UDP="60712"
+#CAIXA_PORT="2631"
+#VPN="1723"
+
+## CONECTIVIDADE SOCIAL
+
+#BANCO_BRASIL=200.200.200.200
+#BANCO_CENTRAL=200.200.200.201
+CAIXA_01="200.201.174.204"
+CAIXA_02="200.201.174.207"
+
+## PORTA PARA INPUT E OUTPUT DE SERVIÇOS ( bloqueio )
+
+SAMBA_PORT="137,138,139"
+
+### Carregando os modulos
+### fazer NAT de forma que haja compartilhamento na conexao
+
+/sbin/modprobe iptable_nat
+
+### resolvendo problema com ftp
+
+/sbin/modprobe ip_conntrack
+/sbin/modprobe ip_conntrack_ftp
+/sbin/modprobe ip_nat_ftp
+
+### utlizado nas opções que geram log.
+
+/sbin/modprobe ipt_LOG
+/sbin/modprobe ipt_REJECT
+/sbin/modprobe ipt_MASQUERADE
+
+### Zerar regras
+
+iptables -F
+iptables -X
+iptables -F -t nat
+iptables -X -t nat
+iptables -F -t mangle
+iptables -X -t mangle
+iptables -t filter -P INPUT DROP
+iptables -t filter -P OUTPUT DROP
+iptables -t filter -P FORWARD DROP
+
+echo "[OK]"
+
+echo -n "ACEITANDO POLÍTICAS..................."
+
+#### Filtros - DROP nos pacotes TCP indesejáveis
+  
+iptables -A FORWARD -p tcp ! --syn -m state --state NEW -j LOG --log-level 6 --log-prefix "FIREWALL: NEW sem syn: "
+iptables -A FORWARD -p tcp ! --syn -m state --state NEW -j DROP
+
+## Drop proxy
+
+#iptables -A INPUT -s 192.168.0.0/24 -d 165.228.132.10 -j DROP
+#iptables -A OUTPUT -d 192.168.0.0/24 -s 165.228.132.10 -j DROP
+#iptables -A FORWARD -s 192.168.0.0/24 -d 165.228.132.10 -j DROP
+#iptables -A FORWARD -d 192.168.0.0/24 -s 165.228.132.10 -j DROP
+
+
+#### ACCEPT (libera) pacotes de retorno da internet
+
+iptables -A INPUT -i ! $INTERNET -j ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED,NEW -j ACCEPT
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED,NEW -j ACCEPT
+
+### Fechando as portas do samba, caso o servidor samba fique de cara para a internet.
+  
+iptables -A INPUT -p tcp -s 0/0 -m multiport --dport $SAMBA_PORT -j REJECT
+iptables -A INPUT -p udp -s 0/0 -m multiport --dport $SAMBA_PORT -j REJECT
+
+### Abrindo as portas do Samba só pra rede Interna
+
+iptables -A INPUT -p tcp -i $REDE_INTERNA -m multiport --dport $SAMBA_PORT -j ACCEPT
+iptables -A INPUT -p udp -i $REDE_INTERNA -m multiport --dport $SAMBA_PORT -j ACCEPT
+iptables -A INPUT -p tcp -i $REDE_INTERNA --destination-port 139 -j ACCEPT
+iptables -A INPUT -p udp -i $REDE_INTERNA --destination-port 139 -j ACCEPT
+
+echo "[OK]"
+
+echo -n "LIBERAR ENTRADA......................."
+
+### Permitir conexão vinda da minha rede interna:" que vem de dentro e quer sair" via vnc, ssh (putty), vpn
+
+iptables -A INPUT -p tcp -s 0/0 -m multiport --dport $TCP_PORT -j ACCEPT
+iptables -A OUTPUT -p tcp -d 0/0 -m multiport --sport $TCP_PORT -j ACCEPT
+iptables -A INPUT -p udp -s 0/0 -m multiport --dport $UDP_PORT -j ACCEPT
+iptables -A OUTPUT -p udp -d 0/0 -m multiport --sport $UDP_PORT -j ACCEPT
+
+# E-MAIL ENVIAR E RECEBER
+
+#iptables -A INPUT -p tcp -s 192.168.0.10 --dport 25 -j ACCEPT
+#iptables -A OUTPUT -p tcp -d 192.168.0.10 --sport 25 -j ACCEPT
+
+#iptables -A INPUT -p tcp -s 192.168.0.10 --dport 110 -j ACCEPT
+#iptables -A OUTPUT -p tcp -d 192.168.0.10 --sport 110 -j ACCEPT
+
+#iptables -A INPUT -p 47 -s 0/0 -j ACCEPT
+#iptables -A OUTPUT -p 47 -d 0/0 -j ACCEPT
+
+iptables -A INPUT -p tcp -s 192.168.0.94 -d $CAIXA_01 -j ACCEPT
+iptables -A OUTPUT -p tcp -d $CAIXA_01 -s 192.168.0.94 -j ACCEPT
+
+iptables -A INPUT -p tcp -s 192.168.0.94 -d $CAIXA_02 -j ACCEPT
+iptables -A OUTPUT -p tcp -d $CAIXA_02 -s 192.168.0.94 -j ACCEPT
+
+#iptables -A INPUT -p tcp -s 192.168.0.0/24 -d $BANCO_BRASIL -j ACCEPT
+#iptables -A OUTPUT -p tcp -d $BANCO_BRASIL -s 192.168.0.0/24 -j ACCEPT
+
+
+iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+iptables -A INPUT -p icmp -j ACCEPT
+iptables -A OUTPUT -p icmp -j ACCEPT
+iptables -A FORWARD -p icmp -j ACCEPT
+
+echo "[OK]"
+
+echo -n "NAT INTERNO..........................."
+
+###  Redireciona portas para a máquina WinXP
+### VNC
+
+iptables -A FORWARD -i $REDE_INTERNA -o $REDE_INTERNA -p tcp --dport $VNC -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $INTERNET -o $INTERNET -p tcp --dport $VNC -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $INTERNET -o $REDE_INTERNA -p tcp --dport $VNC -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $REDE_INTERNA -o $INTERNET -p tcp --dport $VNC -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -t nat -A PREROUTING -p tcp -i $INTERNET --dport $VNC -j DNAT --to 192.168.0.50:5900
+#iptables -t nat -A PREROUTING -p tcp -i $INTERNET -m multiport --dport $VNC -j DNAT --to 192.168.0.95:5800
+
+### RADMIN
+
+iptables -A FORWARD -i $REDE_INTERNA -o $REDE_INTERNA -p tcp --dport $RADMIN -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $INTERNET -o $INTERNET -p tcp --dport $RADMIN -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $REDE_INTERNA -o $INTERNET -p tcp --dport $RADMIN -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $INTERNET -o $REDE_INTERNA -p tcp --dport $RADMIN -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -t nat -A PREROUTING -p tcp -i $INTERNET --dport $RADMIN -j DNAT --to 192.168.0.50:4899
+
+### EMULE
+
+iptables -A FORWARD -i $REDE_INTERNA -o $REDE_INTERNA -p tcp --dport $EMULE_TCP -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $INTERNET -o $INTERNET -p tcp --dport $EMULE_TCP -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $REDE_INTERNA -o $INTERNET -p tcp --dport $EMULE_TCP -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $INTERNET -o $REDE_INTERNA -p tcp --dport $EMULE_TCP -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -t nat -A PREROUTING -p tcp -i $INTERNET --dport $EMULE_TCP -j DNAT --to 192.168.0.86:6088
+
+
+iptables -A FORWARD -i $REDE_INTERNA -o $REDE_INTERNA -p tcp --dport $EMULE_UDP -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $INTERNET -o $INTERNET -p tcp --dport $EMULE_UDP -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $REDE_INTERNA -o $INTERNET -p tcp --dport $EMULE_UDP -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i $INTERNET -o $REDE_INTERNA -p tcp --dport $EMULE_UDP -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -t nat -A PREROUTING -p tcp -i $INTERNET --dport $EMULE_UDP -j DNAT --to 192.168.0.86:60712
+
+### VPN
+
+#iptables -A FORWARD -i $REDE_INTERNA -o $REDE_INTERNA -p tcp --dport $VPN -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+#iptables -A FORWARD -i $INTERNET -o $INTERNET -p tcp --dport $VPN -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+#iptables -A FORWARD -i $REDE_INTERNA -o $INTERNET -p tcp --dport $VPN -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+#iptables -A FORWARD -i $INTERNET -o $REDE_INTERNA -p tcp --dport $VPN -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+#iptables -t nat -A PREROUTING -p tcp -i $INTERNET --dport $VPN -j DNAT --to 192.168.0.10:1723
+
+echo "[OK]"
+
+echo -n "CONECTIVIDADE SOCIAL.................."
+
+# BANCO_BRASIL
+
+#iptables -A FORWARD -p tcp -s 192.168.0.0/24 -d $BANCO_BRASIL -j ACCEPT
+#iptables -A FORWARD -p tcp -d 192.168.0.0/24 -s $BANCO_BRASIL -j ACCEPT
+
+# BANCO_CENTRAL
+
+#iptables -A FORWARD -p tcp -s 192.168.0.0/24 -d $BANCO_CENTRAL -j ACCEPT
+#iptables -A FORWARD -p tcp -d 192.168.0.0/24 -s $BANCO_CENTRAL -j ACCEPT
+
+
+
+#iptables -A INPUT -s 192.168.0.0/24 -d 165.228.132.10 -j DROP
+#iptables -A OUTPUT -d 192.168.0.0/24 -s 165.228.132.10 -j DROP
+#iptables -A FORWARD -s 192.168.0.0/24 -d 165.228.132.10 -j DROP
+#iptables -A FORWARD -d 192.168.0.0/24 -s 165.228.132.10 -j DROP
+
+# Conectividade Social
+
+#iptables -A FORWARD -i $REDE_INTERNA -o $REDE_INTERNA -p tcp --dport $CAIXA_PORT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+#iptables -A FORWARD -i $INTERNET -o $INTERNET -p tcp --dport $CAIXA_PORT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+#iptables -A FORWARD -i $REDE_INTERNA -o $INTERNET -p tcp --dport $CAIXA_PORT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+#iptables -A FORWARD -i $INTERNET -o $REDE_INTERNA -p tcp --dport $CAIXA_PORT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+#iptables -t nat -A PREROUTING -p tcp -i $INTERNET --dport $CAIXA_PORT -j DNAT --to 192.168.0.94:2631
+
+# CAIXA
+#
+iptables -A FORWARD -p tcp -s 192.168.0.94 -d $CAIXA_01 --dport 80 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.0.94 -d $CAIXA_02 --dport 80 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.0.94 -d $CAIXA_01 --dport 2631 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.0.94 -d $CAIXA_02 --dport 2631 -j ACCEPT
+
+
+
+# CAIXA
+#iptables -t nat -A PREROUTING -i $REDE_INTERNA -d $CAIXA -j ACCEPT
+
+echo "[OK]"
+
+echo -n "INTERNET OK..........................."
+
+### redireciona o trafego da porta 80 para 3128, execeto a estacao
+### com IP 192.168.0.99 pq nessa maquina vai roda o servidor VPN
+
+
+
+iptables -t nat -A PREROUTING -i $REDE_INTERNA -s \! 192.168.0.10 -p tcp -m multiport  --dport 80,443 -j REDIRECT --to-ports 3128
+iptables -t nat -A PREROUTING -s 192.168.0.10 -d 0.0.0.0/0  -j ACCEPT
+
+### NAT para a rede interna " liberar internet para rede interna"
+  
+iptables -t nat -A POSTROUTING -o $INTERNET -j MASQUERADE
+
+### Ativando o Roteamento
+
+echo "1" > /proc/sys/net/ipv4/ip_forward
+
+echo "[OK]"
+
+echo "FIREWALL CARREGADO"
