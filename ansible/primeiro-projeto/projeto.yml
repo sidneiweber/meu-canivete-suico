@@ -1,0 +1,11 @@
+# To run this, name this file hello_world.yml and run the following in the same directory
+# ansible-playbook hello_world.yml -i 'local,' --connection=local
+# Projeto
+
+- hosts: "projeto"
+  tasks:
+  - name: "Testar se existe pasta"
+    shell: 'mkdir app'
+    args:
+     chdir: '/home/sidnei/projeto'
+     create: 'ansible'
