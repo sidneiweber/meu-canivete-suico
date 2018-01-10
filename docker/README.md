@@ -150,3 +150,9 @@ net: "host"
 volumes:
 - /var/www/html
 ```
+
+#### Subindo duas imagens Wordpress e Mysql e as linkando
+```shell
+docker run -d --name=dbserver -e "MYSQL_ROOT_PASSWD=bolacha" -e "MYSQL_DATABASE=wordpress" mysql
+docker run -d --name=wordpress -p 80:80 --link dbserver:mysql wordpress
+```
