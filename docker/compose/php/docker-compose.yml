@@ -1,12 +1,23 @@
-dev:
-
-  dockerfile: Dockerfile
+version: '2'
+services:
+ db:
+  image: mysql:5.7
   volumes:
-    - .:/var/www/html
-
-  build: .
-  expose:
-    - "80"
-
+   - "./.data/db:/var/lib/mysql"
+  restart: always
+  environment:
+   MYSQL_ROOT_PASSWORD: root
+   MYSQL_DATABASED: mydb
+   MYSQL_USER: root
+  #MYSQL_PASSWORD: root
+ web:
+  volumes:
+   - "./consulta_linux:/var/www/html"
+  depends_on:
+   - db
+  image: tutum/lamp
+  links:
+   - db
   ports:
-    - "80:80"
+   - "8080:80"
+  restart: always
