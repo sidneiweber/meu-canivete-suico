@@ -156,3 +156,9 @@ volumes:
 docker run -d --name=dbserver -e "MYSQL_ROOT_PASSWD=bolacha" -e "MYSQL_DATABASE=wordpress" mysql
 docker run -d --name=wordpress -p 80:80 --link dbserver:mysql wordpress
 ```
+
+#### Upando imagens para Docker Hub
+```shell
+docker tag debian-apache:v2 sidneiweber/servidorweb:v1
+docker push sidneiweber/web:v1
+```
