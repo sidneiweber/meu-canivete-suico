@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 #
 # Por: David Job 	Fevereiro/2009
 #

@@ -1,0 +1,32 @@
+persistentDB:
+  image: "busybox:latest"
+  volumes:
+    - /var/lib/mysql
+zabbixDB:
+  image: "monitoringartist/zabbix-db-mariadb"
+  environment:
+    MARIADB_USER: zabbix
+    MARIADB_PASS: bolacha
+    PHP_date_timezone: America/Sao_Paulo
+    ZS_StartDiscoverers: "5"
+    ZS_StartPingers: "5"
+  volumes_from:
+    - persistentDB
+  volumes:
+    - "/etc/localtime:/etc/localtime:ro"
+    - "/srv/zabbix/backups:/backups"
+  hostname: zabbix-db
+zabbix:
+  image: "monitoringartist/zabbix-3.0-xxl:latest"
+  ports:
+    - "1080:80"
+    - "10051:10051"
+  volumes:
+    - "/etc/localtime:/etc/localtime:ro"
+  links:
+    - "zabbixDB:zabbix.db"
+  environment:
+    ZS_DBHost: zabbix.db
+    ZS_DBUser: zabbix
+    ZS_DBPassword: bolacha
+    TERM: xterm

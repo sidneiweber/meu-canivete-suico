@@ -1,7 +1,7 @@
 <?php
 $server = "localhost";
     $user = "root";
-    $senha = "bolacha";
+    $senha = "";
     $base = "catalogo";
     $conexao = mysql_connect($server, $user, $senha) or die("Erro na conexão!");
     mysql_select_db($base);
