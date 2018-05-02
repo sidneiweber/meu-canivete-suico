@@ -1,9 +1,9 @@
 # Ansible
 Algumas informações e exemplos sobre a ferramenta
 
-## Commands raw
+### Commands raw
 
-## Commands adhoc
+### Commands adhoc
 ```shell
 ansible <HOST_GROUP> -m ping
 
