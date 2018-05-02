@@ -7,7 +7,7 @@ if (isset($_GET["txtnome"])) {
     // Conexao com o banco de dados
     $server = "localhost";
     $user = "root";
-    $senha = "bolacha";
+    $senha = "";
     $base = "catalogo";
     $conexao = mysql_connect($server, $user, $senha) or die("Erro na conexão!");
     mysql_select_db($base);
