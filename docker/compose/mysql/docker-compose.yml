@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  mysqlsrv:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: "bolacha"
+      MYSQL_DATABASE: "testedb"
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/sidnei/meu-canivete-suico/docker/compose/mysql/mydb:/var/lib/mysql/data
+    networks:
+      - mysql-compose-network
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - mysql-compose-network
+
+volumes:
+  mydb:
+
+networks: 
+  mysql-compose-network:
+    driver: bridge
